@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 16px;
+  background-color: white;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+.registerbtn {
+  background-color: #f26522;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity: 1;
+}
+
+a {
+  color: dodgerblue;
+}
+
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Register</h1>
+  <hr>
+
+  <label for="ward"><b>ADD WARD TYPE</b></label>
+  <input type="text" placeholder="Enter Survey" name="ward" id="ward" required>
+
+  <label for="district"><b>ADD CONSTITUENCY</b></label>
+  <input type="text" placeholder="Enter Constituency" name="district" id="district" required>
+  
+  <label for="constituency"><b>ADD Assembly</b></label>
+  <input type="text" placeholder="Enter Assembly" name="constituency" id="constituency" required>
+  
+  <label for="campaign"><b>ADD Campaign</b></label>
+  <input type="text" placeholder="Enter Campaign" name="campaign" id="campaign" required>
+  
+  <label for="url"><b>ADD THE URL</b></label>
+  <input type="text" placeholder="Paste the url" name="url" id="url" required>
+
+  
+  <hr>
+
+  <button type="button" class="registerbtn" onclick="register()">Register</button>
+</div>
+
+<script>
+function register() {
+  var ward = document.getElementById("ward").value;
+  var district = document.getElementById("district").value;
+  var constituency = document.getElementById("constituency").value;
+  var campaign = document.getElementById("campaign").value;
+  var url = document.getElementById("url").value;
+
+  var data = {
+    ward: ward,
+    district: district,
+    constituency: constituency,
+    campaign: campaign,
+    url: url,
+    domain: "WARD",
+    subdomain: "WARD"
+  };
+
+  fetch('https://chatbot.mannit.co/mannit/eCreate?domain=WARD&subdomain=WARD&userId=65f81f20d2c2c30387f03f48', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    // Clear input fields after successful submission
+    document.getElementById("ward").value = "";
+    document.getElementById("district").value = "";
+    document.getElementById("constituency").value = "";
+    document.getElementById("campaign").value = "";
+    document.getElementById("url").value = "";
+    return response.json();
+  })
+  .then(data => {
+    console.log('Data successfully stored:', data);
+  })
+  .catch(error => {
+    console.error('There was a problem with the request:', error);
+  });
+}
+</script>
+
+</body>
+</html>
